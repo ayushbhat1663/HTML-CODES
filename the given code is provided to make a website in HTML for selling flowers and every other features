@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Shop</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Ensure the images have a specified size */
+        img {
+            width: 200px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Flower Shop</h1>
+        <!-- Add your logo here -->
+        <nav>
+            <ul>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="about">
+        <!-- About section content -->
+    </section>
+    <section id="products">
+        <h2>Discover Our Flower Collection</h2>
+        <ul>
+            <li>
+                <img src="D:/flowers/rose.jpeg" alt="Rose">
+                <p>Roses: Classic elegance and timeless love</p>
+                <p>Price: ₹10 per stem</p>
+                <input type="number" min="0" value="0" id="roseQuantity">
+                <button onclick="addToCart('Rose', 10)">Add to Cart</button>
+            </li>
+            <li>
+                <img src="D:/flowers/tulip.jpeg" alt="Tulip">
+                <p>Tulips: Bright and cheerful blooms</p>
+                <p>Price: ₹8 per stem</p>
+                <input type="number" min="0" value="0" id="tulipQuantity">
+                <button onclick="addToCart('Tulip', 8)">Add to Cart</button>
+            </li>
+            <li>
+                <img src="D:/flowers/lily.jpeg" alt="Lily">
+                <p>Lilies: Elegant and fragrant</p>
+                <p>Price: ₹12 per stem</p>
+                <input type="number" min="0" value="0" id="lilyQuantity">
+                <button onclick="addToCart('Lily', 12)">Add to Cart</button>
+            </li>
+            <!-- Add more flowers here -->
+        </ul>
+        <button onclick="showCheckout()">Proceed to Checkout</button>
+    </section>
+
+    <!-- Checkout section (hidden by default) -->
+    <section id="checkout" style="display: none;">
+        <h2>Checkout</h2>
+        <div id="cartItems"></div>
+        <!-- Include form fields for buyer details if necessary -->
+        <button onclick="confirmOrder()">Confirm Order</button>
+    </section>
+
+    <!-- Loading screen (hidden by default) -->
+    <section id="loading" style="display: none;">
+        <p>Loading...</p>
+    </section>
+
+    <!-- Order confirmation (hidden by default) -->
+    <section id="orderConfirmation" style="display: none;">
+        <p>Your order is complete! Ayush Bhat will contact you shortly with the details.</p>
+    </section>
+
+    <script>
+        // Script to handle cart, checkout, and confirmation
+        var cart = [];
+
+        function addToCart(flower, price) {
+            var quantity = document.getElementById(flower.toLowerCase() + 'Quantity').value;
+            if (quantity > 0) {
+                cart.push({ flower: flower, price: price, quantity: quantity });
+                alert(quantity + ' ' + flower + '(s) added to cart.');
+            } else {
+                alert('Please select a valid quantity.');
+            }
+        }
+
+        function showCheckout() {
+            var cartItemsDiv = document.getElementById('cartItems');
+            cartItemsDiv.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p>Your cart is empty.</p>';
+            } else {
+                var cartList = '<ul>';
+                for (var i = 0; i < cart.length; i++) {
+                    cartList += '<li>' + cart[i].quantity + ' x ' + cart[i].flower + ' at ₹' + cart[i].price + ' each</li>';
+                }
+                cartList += '</ul>';
+                cartItemsDiv.innerHTML = cartList;
+            }
+
+            document.getElementById('products').style.display = 'none';
+            document.getElementById('checkout').style.display = 'block';
+        }
+
+        function confirmOrder() {
+            document.getElementById('checkout').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+
+            setTimeout(function() {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('orderConfirmation').style.display = 'block';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
